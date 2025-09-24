@@ -7,12 +7,14 @@ import {
   IconButton,
   Box,
   Alert,
+  Tooltip,
 } from "@mui/material";
+import { indigo } from "@mui/material/colors";
 import AddIcon from "@mui/icons-material/Add";
 import OpenInFullIcon from "@mui/icons-material/OpenInFull";
-import InfoIcon from "@mui/icons-material/Info";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
-import dayjs, { Dayjs } from "dayjs";
+import { Dayjs } from "dayjs";
 import InlineParticipantsChips from "./InlineParticipantsChips";
 import { useCampaignStore } from "../../store/campaignStore";
 
@@ -51,6 +53,29 @@ const GeneralInformationSection: React.FC<Props> = ({
     return;
   }, [clearedMsg]);
 
+  // unified label style for consistent typography across fields
+  const labelSx = {
+    mb: 1,
+    color: "text.primary",
+    fontWeight: 500,
+    fontSize: "0.875rem", // 14px
+    lineHeight: 1.2,
+  };
+  const dateFieldSx = { "& .MuiOutlinedInput-root": { borderRadius: "12px" } };
+
+  // icon styles to vertically align the circular "i" with the label text
+  const iconButtonSx = { ml: 1, p: 0.5 };
+  const headerIconSx = {
+    fontSize: 20,
+    color: indigo["A700"],
+    // transform: "translateY(-2px)",
+  };
+  const smallIconSx = {
+    fontSize: 15,
+    color: indigo["A700"],
+    transform: "translateY(-5px)",
+  };
+
   return (
     <Box sx={{ position: "relative" }}>
       <Typography
@@ -58,21 +83,22 @@ const GeneralInformationSection: React.FC<Props> = ({
         sx={{ mb: 3, display: "flex", alignItems: "center", fontWeight: 500 }}
       >
         General Information
-        <InfoIcon sx={{ ml: 1, fontSize: 20, color: "grey.500" }} />
+        <Tooltip title="General Information helps group the campaign's core fields">
+          <IconButton
+            aria-label="General information help"
+            size="small"
+            sx={iconButtonSx}
+          >
+            <InfoOutlinedIcon sx={headerIconSx} />
+          </IconButton>
+        </Tooltip>
       </Typography>
 
-      {/*
-        alignItems="flex-start" is key so both columns start on the same vertical baseline.
-        We render labels above inputs consistently (Typography) so left and right match.
-      */}
       <Grid container spacing={4} sx={{ mb: 4 }} alignItems="flex-start">
         {/* LEFT */}
         <Grid item xs={12} md={6}>
           {/* Campaign Name label above the input */}
-          <Typography
-            variant="body2"
-            sx={{ mb: 1, color: "text.primary", fontWeight: 500 }}
-          >
+          <Typography variant="body2" sx={labelSx}>
             Campaign Name
           </Typography>
 
@@ -81,15 +107,15 @@ const GeneralInformationSection: React.FC<Props> = ({
             placeholder="e.g. Journey Insights"
             value={campaignName}
             onChange={(e) => setCampaignName(e.target.value)}
-            sx={{ mb: 3 }}
+            sx={{
+              mb: 3,
+              "& .MuiOutlinedInput-root": { borderRadius: "12px" },
+            }}
             variant="outlined"
           />
 
           {/* Description label above the input */}
-          <Typography
-            variant="body2"
-            sx={{ mb: 1, color: "text.primary", fontWeight: 500 }}
-          >
+          <Typography variant="body2" sx={labelSx}>
             Description
           </Typography>
 
@@ -106,6 +132,7 @@ const GeneralInformationSection: React.FC<Props> = ({
               sx={{
                 // provide space on the right so content doesn't sit under the icon
                 pr: "56px",
+                "& .MuiOutlinedInput-root": { borderRadius: "12px" },
               }}
             />
 
@@ -137,18 +164,13 @@ const GeneralInformationSection: React.FC<Props> = ({
             </IconButton>
           </Box>
 
-          <Typography
-            variant="body1"
-            sx={{
-              mb: 1,
-              fontWeight: 500,
-              display: "flex",
-              alignItems: "center",
-            }}
-          >
-            Invite Participants{" "}
-            <InfoIcon sx={{ ml: 1, fontSize: 16, color: "grey.500" }} />
-          </Typography>
+          {/* Invite Participants label (no tooltip) */}
+          <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
+            <Typography variant="body2" sx={labelSx}>
+              Invite Participants
+            </Typography>
+            {/* intentionally no tooltip or icon here per request */}
+          </Box>
 
           <TextField
             fullWidth
@@ -173,6 +195,7 @@ const GeneralInformationSection: React.FC<Props> = ({
               mb: 2,
               cursor: "pointer",
               "& .MuiInputBase-input": { cursor: "pointer" },
+              "& .MuiOutlinedInput-root": { borderRadius: "12px" },
             }}
           />
 
@@ -181,16 +204,10 @@ const GeneralInformationSection: React.FC<Props> = ({
 
         {/* RIGHT */}
         <Grid item xs={12} md={6}>
-          {/*
-            Render labels above each date picker to match left-side label rhythm.
-            That ensures Start Date aligns horizontally with the Campaign Name input.
-          */}
-          <Grid container spacing={2} sx={{ mb: 2 }}>
+          {/* Render labels above date pickers with the same label style */}
+          <Grid container spacing={2} sx={{ mb: 3 }}>
             <Grid item xs={6}>
-              <Typography
-                variant="body2"
-                sx={{ mb: 1, color: "text.primary", fontWeight: 500 }}
-              >
+              <Typography variant="body2" sx={labelSx}>
                 Start Date
               </Typography>
 
@@ -202,16 +219,13 @@ const GeneralInformationSection: React.FC<Props> = ({
                     clearable: true,
                     onClear: () => setClearedMsg("Start date cleared!"),
                   } as any,
-                  textField: { fullWidth: true },
+                  textField: { fullWidth: true, sx: dateFieldSx },
                 }}
               />
             </Grid>
 
             <Grid item xs={6}>
-              <Typography
-                variant="body2"
-                sx={{ mb: 1, color: "text.primary", fontWeight: 500 }}
-              >
+              <Typography variant="body2" sx={labelSx}>
                 End Date
               </Typography>
 
@@ -223,24 +237,26 @@ const GeneralInformationSection: React.FC<Props> = ({
                     clearable: true,
                     onClear: () => setClearedMsg("End date cleared!"),
                   } as any,
-                  textField: { fullWidth: true },
+                  textField: { fullWidth: true, sx: dateFieldSx },
                 }}
               />
             </Grid>
           </Grid>
 
-          <Typography
-            variant="body1"
-            sx={{
-              mb: 1,
-              fontWeight: 500,
-              display: "flex",
-              alignItems: "center",
-            }}
-          >
-            Participant Instructions{" "}
-            <InfoIcon sx={{ ml: 1, fontSize: 16, color: "grey.500" }} />
-          </Typography>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Typography variant="body2" sx={labelSx}>
+              Participant Instructions
+            </Typography>
+            <Tooltip title="Notes participants will read before the interview">
+              <IconButton
+                aria-label="Participant instructions help"
+                size="small"
+                sx={iconButtonSx}
+              >
+                <InfoOutlinedIcon sx={smallIconSx} />
+              </IconButton>
+            </Tooltip>
+          </Box>
 
           <Box>
             <TextField
@@ -251,6 +267,7 @@ const GeneralInformationSection: React.FC<Props> = ({
               onChange={(e) => setParticipantInstructions(e.target.value)}
               placeholder="Add instructions or notes for your interview participants to read before beginning the interview"
               variant="outlined"
+              sx={{ "& .MuiOutlinedInput-root": { borderRadius: "12px" } }}
             />
           </Box>
         </Grid>

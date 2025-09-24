@@ -62,6 +62,8 @@ const InlineParticipantsChips: React.FC<{ onOpenInvite: () => void }> = ({
               deleteIcon={<CloseIcon />}
               sx={{
                 mb: 1,
+                border: "1px solid #EDF0FD",
+                backgroundColor: "#EDF0FD",
                 transition: "all 0.2s ease",
                 "&:hover": { boxShadow: 2, transform: "translateY(-2px)" },
               }}

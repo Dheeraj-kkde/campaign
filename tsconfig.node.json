@@ -4,11 +4,14 @@
     "target": "ES2023",
     "lib": ["ES2023"],
     "module": "ESNext",
-    "types": [],
     "skipLibCheck": true,
 
-    /* Bundler mode */
+    /* Bundler mode with explicit plugin types */
     "moduleResolution": "bundler",
+    "types": [],
+    "paths": {
+      "@vitejs/plugin-react": ["./node_modules/@vitejs/plugin-react/dist/index"]
+    },
     "allowImportingTsExtensions": true,
     "verbatimModuleSyntax": true,
     "moduleDetection": "force",

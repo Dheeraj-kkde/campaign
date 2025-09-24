@@ -1,6 +1,14 @@
 import React from "react";
-import { Box, Grid, TextField, Typography } from "@mui/material";
-import InfoIcon from "@mui/icons-material/Info";
+import {
+  Box,
+  Grid,
+  TextField,
+  Typography,
+  Tooltip,
+  IconButton,
+} from "@mui/material";
+import { indigo } from "@mui/material/colors";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import StarterPromptCard from "./StarterPromptCard";
 import { useCampaignStore } from "../../store/campaignStore";
 
@@ -15,6 +23,28 @@ const AgentInstructionsSection: React.FC = () => {
     outcome: ["Sample Outcome 1...", "Sample Outcome 2..."],
   };
 
+  // shared label style to match other sections
+  const labelSx = {
+    mb: 1,
+    color: "text.primary",
+    fontWeight: 500,
+    fontSize: "0.875rem", // 14px
+    lineHeight: 1.2,
+  };
+
+  // icon styles to vertically align the circular "i" with the label text
+  const iconButtonSx = { ml: 1, p: 0.5 };
+  const headerIconSx = {
+    fontSize: 20,
+    color: indigo["A700"],
+    // transform: "translateY(-2px)",
+  };
+  const smallIconSx = {
+    fontSize: 15,
+    color: indigo["A700"],
+    transform: "translateY(-5px)",
+  };
+
   return (
     <Box>
       <Typography
@@ -22,26 +52,46 @@ const AgentInstructionsSection: React.FC = () => {
         sx={{ mb: 3, display: "flex", alignItems: "center", fontWeight: 500 }}
       >
         Agent Instructions
-        <InfoIcon sx={{ ml: 1, fontSize: 20, color: "grey.500" }} />
+        <Tooltip title="Instructions for the automated agent & prompts">
+          <IconButton
+            aria-label="Agent instructions help"
+            size="small"
+            sx={iconButtonSx}
+          >
+            <InfoOutlinedIcon sx={headerIconSx} />
+          </IconButton>
+        </Tooltip>
       </Typography>
 
       <Grid container spacing={4}>
         <Grid item xs={12} md={6}>
-          <Typography variant="body1" sx={{ mb: 1, fontWeight: 500 }}>
-            Interview Prompt
-          </Typography>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Typography variant="body2" sx={labelSx}>
+              Interview Prompt
+            </Typography>
+            <Tooltip title="Describe the interview questions and objectives">
+              <IconButton
+                aria-label="Interview prompt help"
+                size="small"
+                sx={iconButtonSx}
+              >
+                <InfoOutlinedIcon sx={smallIconSx} />
+              </IconButton>
+            </Tooltip>
+          </Box>
+
           <TextField
             fullWidth
             multiline
-            rows={6}
+            rows={3}
             value={interviewPrompt}
             onChange={(e) => setInterviewPrompt(e.target.value)}
-            sx={{ mb: 3 }}
+            sx={{ mb: 3, "& .MuiOutlinedInput-root": { borderRadius: "12px" } }}
           />
 
           <Grid container spacing={2}>
             {starterPrompts.interview.map((p, i) => (
-              <Grid item xs={6} key={i}>
+              <Grid item xs={12} sm={6} key={i}>
                 <StarterPromptCard
                   prompt={p}
                   onUse={(pt) => setInterviewPrompt(pt)}
@@ -52,21 +102,33 @@ const AgentInstructionsSection: React.FC = () => {
         </Grid>
 
         <Grid item xs={12} md={6}>
-          <Typography variant="body1" sx={{ mb: 1, fontWeight: 500 }}>
-            Outcome Prompt
-          </Typography>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Typography variant="body2" sx={labelSx}>
+              Outcome Prompt
+            </Typography>
+            <Tooltip title="Describe desired output for the interview recap">
+              <IconButton
+                aria-label="Outcome prompt help"
+                size="small"
+                sx={iconButtonSx}
+              >
+                <InfoOutlinedIcon sx={smallIconSx} />
+              </IconButton>
+            </Tooltip>
+          </Box>
+
           <TextField
             fullWidth
             multiline
-            rows={6}
+            rows={3}
             value={outcomePrompt}
             onChange={(e) => setOutcomePrompt(e.target.value)}
-            sx={{ mb: 3 }}
+            sx={{ mb: 3, "& .MuiOutlinedInput-root": { borderRadius: "12px" } }}
           />
 
           <Grid container spacing={2}>
             {starterPrompts.outcome.map((p, i) => (
-              <Grid item xs={6} key={i}>
+              <Grid item xs={12} sm={6} key={i}>
                 <StarterPromptCard
                   prompt={p}
                   onUse={(pt) => setOutcomePrompt(pt)}

@@ -5,6 +5,30 @@ import AgentInstructionsSection from "./AgentInstructionsSection";
 import InviteParticipantsModal from "./InviteParticipantsModal";
 import DescriptionExpandModal from "./DescriptionExpandModal";
 
+const outlinedButtonSx = {
+  borderColor: "#1e49e2",
+  textTransform: "none",
+  color: "#1e49e2",
+  borderRadius: 5,
+  "&:hover": {
+    borderColor: "#1e49e2",
+    backgroundColor: "rgba(26, 40, 193, 0.04)",
+  },
+} as const;
+
+const containedButtonSx = {
+  borderColor: "#1e49e2",
+  textTransform: "none",
+  color: "white",
+  backgroundColor: "#1e49e2",
+  borderRadius: 5,
+  "&:hover": {
+    borderColor: "#1e49e2",
+    color: "white",
+    backgroundColor: "rgba(30, 73, 226)",
+  },
+} as const;
+
 const CampaignSetup: React.FC = () => {
   const [inviteOpen, setInviteOpen] = useState(false);
   const [descOpen, setDescOpen] = useState(false);
@@ -26,13 +50,19 @@ const CampaignSetup: React.FC = () => {
 
       <Box sx={{ display: "flex", justifyContent: "space-between", mt: 4 }}>
         <Box sx={{ display: "flex", gap: 2 }}>
-          <Button variant="outlined">Cancel</Button>
-          <Button variant="outlined">Save Draft</Button>
+          <Button variant="outlined" sx={outlinedButtonSx}>
+            Cancel
+          </Button>
+          <Button variant="outlined" sx={outlinedButtonSx}>
+            Save Draft
+          </Button>
         </Box>
         <Box sx={{ display: "flex", gap: 2 }}>
-          <Button variant="outlined">Preview</Button>
-          <Button variant="contained" color="primary">
-            Save Changes
+          <Button variant="contained" sx={containedButtonSx}>
+            Preview
+          </Button>
+          <Button variant="contained" color="primary" sx={containedButtonSx}>
+            Publish
           </Button>
         </Box>
       </Box>
