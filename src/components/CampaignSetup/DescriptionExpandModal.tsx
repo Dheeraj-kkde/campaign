@@ -13,7 +13,30 @@ import {
   Alert,
 } from "@mui/material";
 import { useCampaignStore } from "../../store/campaignStore";
-import { debounce } from "../../utils/debounce";
+
+const outlinedButtonSx = {
+  borderColor: "#1e49e2",
+  textTransform: "none",
+  color: "#1e49e2",
+  borderRadius: 5,
+  "&:hover": {
+    borderColor: "#1e49e2",
+    backgroundColor: "rgba(26, 40, 193, 0.04)",
+  },
+} as const;
+
+const containedButtonSx = {
+  borderColor: "#1e49e2",
+  textTransform: "none",
+  color: "white",
+  backgroundColor: "#1e49e2",
+  borderRadius: 5,
+  "&:hover": {
+    borderColor: "#1e49e2",
+    color: "white",
+    backgroundColor: "rgba(30, 73, 226)",
+  },
+} as const;
 
 const AUTOSAVE_DELAY_MS = 2000;
 
@@ -26,33 +49,45 @@ const DescriptionExpandModal: React.FC<Props> = ({ open, onClose }) => {
   const [draft, setDraft] = useState(description);
   const [autosaveOpen, setAutosaveOpen] = useState(false);
   const lastSavedRef = useRef(description);
+  const draftRef = useRef(draft);
 
-  useEffect(() => setDraft(description), [description]);
+  useEffect(() => {
+    draftRef.current = draft;
+  }, [draft]);
+
+  useEffect(() => {
+    if (open) {
+      setDraft(description);
+      draftRef.current = description;
+    }
+  }, [description, open]);
 
   const commit = useCallback(
-    (showToast = true) => {
-      if (draft !== lastSavedRef.current) {
-        setDescription(draft);
-        lastSavedRef.current = draft;
+    (nextDraft: string, showToast = true) => {
+      if (nextDraft !== lastSavedRef.current) {
+        setDescription(nextDraft);
+        lastSavedRef.current = nextDraft;
         if (showToast) {
           setAutosaveOpen(true);
           setTimeout(() => setAutosaveOpen(false), 1400);
         }
       }
     },
-    [draft, setDescription]
+    [setDescription]
   );
-
-  const debounced = useRef(debounce(() => commit(true), AUTOSAVE_DELAY_MS));
 
   useEffect(() => {
     if (!open) return;
-    debounced.current();
-  }, [draft, open]);
+    const handle = window.setTimeout(
+      () => commit(draftRef.current, true),
+      AUTOSAVE_DELAY_MS
+    );
+    return () => window.clearTimeout(handle);
+  }, [draft, open, commit]);
 
   useEffect(() => {
     return () => {
-      commit(false);
+      commit(draftRef.current, false);
     };
   }, [commit]);
 
@@ -60,7 +95,7 @@ const DescriptionExpandModal: React.FC<Props> = ({ open, onClose }) => {
     <Dialog
       open={open}
       onClose={() => {
-        commit(false);
+        commit(draftRef.current, false);
         onClose();
       }}
       maxWidth="md"
@@ -94,15 +129,17 @@ const DescriptionExpandModal: React.FC<Props> = ({ open, onClose }) => {
               onClick={() => {
                 onClose();
               }}
+              sx={outlinedButtonSx}
             >
               Cancel
             </Button>
             <Button
               variant="contained"
               onClick={() => {
-                commit(false);
+                commit(draftRef.current, false);
                 onClose();
               }}
+              sx={containedButtonSx}
             >
               Save
             </Button>
