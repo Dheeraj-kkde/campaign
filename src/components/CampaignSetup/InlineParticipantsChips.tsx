@@ -67,7 +67,13 @@ const InlineParticipantsChips: React.FC<{ onOpenInvite: () => void }> = ({
                 border: "1px solid #EDF0FD",
                 backgroundColor: "#EDF0FD",
                 transition: "all 0.2s ease",
-                "&:hover": { boxShadow: 2, transform: "translateY(-2px)" },
+                "&:hover": {
+                  boxShadow: 2,
+                  transform: "translateY(-2px)",
+                  padding: "5px 6px",
+                  border: "1px solid #EDF0FD",
+                  backgroundColor: "#EDF0FD",
+                },
               }}
             />
           </Box>
@@ -81,9 +87,15 @@ const InlineParticipantsChips: React.FC<{ onOpenInvite: () => void }> = ({
           sx={{
             mb: 1,
             cursor: "pointer",
+            padding: "5px 6px",
+            border: "1px solid #EDF0FD",
+            backgroundColor: "#EDF0FD",
             transition: "transform 180ms ease",
             "&:active": { transform: "scale(0.95)" },
             "&:hover": {
+              padding: "5px 6px",
+              border: "1px solid #EDF0FD",
+              backgroundColor: "#EDF0FD",
               boxShadow: 2,
               transform: "translateY(-2px) scale(1.02)",
             },

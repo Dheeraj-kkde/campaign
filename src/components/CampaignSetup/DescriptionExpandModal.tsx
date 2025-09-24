@@ -91,6 +91,21 @@ const DescriptionExpandModal: React.FC<Props> = ({ open, onClose }) => {
     };
   }, [commit]);
 
+  const outlinedTextFieldSx = {
+    "& .MuiOutlinedInput-root": {
+      borderRadius: "12px",
+      "&:hover .MuiOutlinedInput-notchedOutline": {
+        borderColor: "#1E49E2",
+      },
+      "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+        borderColor: "#1E49E2",
+      },
+    },
+    "& .MuiOutlinedInput-notchedOutline": {
+      transition: "border-color 0.2s ease",
+    },
+  };
+
   return (
     <Dialog
       open={open}
@@ -106,7 +121,12 @@ const DescriptionExpandModal: React.FC<Props> = ({ open, onClose }) => {
       <Fade in={open} timeout={220}>
         <div>
           <DialogTitle>Description</DialogTitle>
-          <DialogContent dividers>
+          <DialogContent
+            sx={{
+              margin: "0px 24px",
+              padding: "16px 0px",
+            }}
+          >
             <TextField
               fullWidth
               multiline
@@ -114,6 +134,7 @@ const DescriptionExpandModal: React.FC<Props> = ({ open, onClose }) => {
               value={draft}
               onChange={(e) => setDraft(e.target.value)}
               placeholder="Write a detailed description..."
+              sx={outlinedTextFieldSx}
             />
             <Typography
               variant="caption"

@@ -29,6 +29,45 @@ const suggestions = [
   "Michael Garcia H",
 ];
 
+const outlinedTextFieldSx = {
+  "& .MuiOutlinedInput-root": {
+    borderRadius: "12px",
+    "&:hover .MuiOutlinedInput-notchedOutline": {
+      borderColor: "#1E49E2",
+    },
+    "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+      borderColor: "#1E49E2",
+    },
+  },
+  "& .MuiOutlinedInput-notchedOutline": {
+    transition: "border-color 0.2s ease",
+  },
+};
+
+const outlinedButtonSx = {
+  borderColor: "#1e49e2",
+  textTransform: "none",
+  color: "#1e49e2",
+  borderRadius: 5,
+  "&:hover": {
+    borderColor: "#1e49e2",
+    backgroundColor: "rgba(26, 40, 193, 0.04)",
+  },
+} as const;
+
+const containedButtonSx = {
+  borderColor: "#1e49e2",
+  textTransform: "none",
+  color: "white",
+  backgroundColor: "#1e49e2",
+  borderRadius: 5,
+  "&:hover": {
+    borderColor: "#1e49e2",
+    color: "white",
+    backgroundColor: "rgba(30, 73, 226)",
+  },
+} as const;
+
 const InviteParticipantsModal: React.FC<Props> = ({ open, onClose }) => {
   const participants = useCampaignStore((s) => s.participants);
   const addParticipant = useCampaignStore((s) => s.addParticipant);
@@ -70,11 +109,15 @@ const InviteParticipantsModal: React.FC<Props> = ({ open, onClose }) => {
       fullWidth
       TransitionComponent={Grow}
       transitionDuration={220}
+      disableRestoreFocus
     >
       <Fade in={open} timeout={220}>
         <Box>
           <DialogTitle>Invite Participants</DialogTitle>
-          <DialogContent dividers>
+          <DialogContent
+            dividers
+            sx={{ pt: 3, pb: 3, mx: 3, borderBottom: "none", padding: "8px" }}
+          >
             <Box sx={{ display: "flex", gap: 1, alignItems: "center", mb: 2 }}>
               <TextField
                 fullWidth
@@ -90,6 +133,7 @@ const InviteParticipantsModal: React.FC<Props> = ({ open, onClose }) => {
                   ),
                 }}
                 sx={{
+                  ...outlinedTextFieldSx,
                   "& .MuiInputBase-root": {
                     transition: "box-shadow 180ms ease",
                     boxShadow: addingPulse
@@ -102,6 +146,7 @@ const InviteParticipantsModal: React.FC<Props> = ({ open, onClose }) => {
                 variant="contained"
                 onClick={handleAdd}
                 sx={{
+                  ...containedButtonSx,
                   py: 1,
                   px: 2,
                   transform: addButtonPop ? "scale(1.06)" : "scale(1)",
@@ -120,7 +165,11 @@ const InviteParticipantsModal: React.FC<Props> = ({ open, onClose }) => {
                     size="small"
                     variant="outlined"
                     onClick={() => addParticipant(s)}
-                    sx={{ textTransform: "none" }}
+                    sx={{
+                      textTransform: "none",
+                      borderColor: "#1e49e2",
+                      color: "#1e49e2",
+                    }}
                   >
                     + {s}
                   </Button>
@@ -145,6 +194,12 @@ const InviteParticipantsModal: React.FC<Props> = ({ open, onClose }) => {
                       onDelete={() => handleRemove(idx)}
                       deleteIcon={<CloseIcon />}
                       variant="outlined"
+                      sx={{
+                        padding: "5px 6px",
+                        border: "1px solid #EDF0FD",
+                        backgroundColor: "#EDF0FD",
+                        transition: "all 0.2s ease",
+                      }}
                     />
                   </Box>
                 ))}
@@ -152,7 +207,7 @@ const InviteParticipantsModal: React.FC<Props> = ({ open, onClose }) => {
             </Box>
           </DialogContent>
           <DialogActions sx={{ pr: 3, pb: 2 }}>
-            <Button variant="outlined" onClick={onClose}>
+            <Button variant="outlined" onClick={onClose} sx={outlinedButtonSx}>
               Close
             </Button>
           </DialogActions>
