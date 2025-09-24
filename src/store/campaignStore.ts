@@ -23,7 +23,7 @@ type CampaignState = {
 
 export const useCampaignStore = create<CampaignState>((set) => ({
   campaignName: '',
-  description: 'This campaign delves deep into the personal narratives of adventurers...',
+  description: '',
   startDate: null,
   endDate: null,
   participantInstructions: '',
