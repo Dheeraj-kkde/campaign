@@ -43,7 +43,7 @@ const InlineParticipantsChips: React.FC<{ onOpenInvite: () => void }> = ({
         animation: inlineAddingPulse ? "pulse 600ms ease-out" : undefined,
       }}
     >
-      {participants.slice(0, 4).map((p, i) => {
+      {participants.slice(0, 3).map((p, i) => {
         const idx = participants.indexOf(p);
         return (
           <Box
@@ -62,6 +62,8 @@ const InlineParticipantsChips: React.FC<{ onOpenInvite: () => void }> = ({
               deleteIcon={<CloseIcon />}
               sx={{
                 mb: 1,
+                // border: "1px solid red",
+                padding: "5px 6px",
                 border: "1px solid #EDF0FD",
                 backgroundColor: "#EDF0FD",
                 transition: "all 0.2s ease",
@@ -71,9 +73,9 @@ const InlineParticipantsChips: React.FC<{ onOpenInvite: () => void }> = ({
           </Box>
         );
       })}
-      {participants.length > 4 && (
+      {participants.length > 3 && (
         <Chip
-          label={`+ ${participants.length - 4} others`}
+          label={`+ ${participants.length - 3} others`}
           onClick={onOpenInvite}
           variant="outlined"
           sx={{

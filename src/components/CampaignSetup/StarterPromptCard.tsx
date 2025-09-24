@@ -20,21 +20,15 @@ const StarterPromptCard: React.FC<Props> = ({ prompt, onUse }) => {
       }}
       sx={{
         cursor: "pointer",
-        borderRadius: 2, // ~8px
-        border: (theme) => `1px solid ${theme.palette.divider}`,
-        backgroundColor: (theme) =>
-          theme.palette.mode === "light"
-            ? "#fbfbfc"
-            : theme.palette.background.paper,
+        borderRadius: 1,
+        border: (theme) => `0.3px solid ${theme.palette.divider}`,
+        background: "none",
         transition:
           "transform 180ms ease, box-shadow 180ms ease, background-color 180ms ease",
         "&:hover": {
-          transform: "translateY(-6px)",
+          transform: "translateY(-3px)",
           boxShadow: (theme) => theme.shadows[4],
-          backgroundColor: (theme) =>
-            theme.palette.mode === "light"
-              ? "#ffffff"
-              : theme.palette.background.paper,
+          backgroundColor: "none",
         },
         display: "flex",
         flexDirection: "column",
@@ -42,7 +36,7 @@ const StarterPromptCard: React.FC<Props> = ({ prompt, onUse }) => {
         height: "100%",
       }}
     >
-      <CardContent sx={{ p: 3 }}>
+      <CardContent sx={{ p: 2 }}>
         <Box
           sx={{
             minHeight: 64,
@@ -67,7 +61,7 @@ const StarterPromptCard: React.FC<Props> = ({ prompt, onUse }) => {
         </Box>
       </CardContent>
 
-      <Box sx={{ px: 3, pb: 3 }}>
+      <Box sx={{ px: 2, pb: 1 }}>
         <Button
           onClick={(e) => {
             // prevent card click firing twice
@@ -78,16 +72,19 @@ const StarterPromptCard: React.FC<Props> = ({ prompt, onUse }) => {
           variant="outlined"
           size="small"
           sx={{
+            color: "#1e49e2",
             width: "100%",
+            border: "none",
             borderRadius: 5.5,
             borderWidth: 1,
             textTransform: "none",
             fontWeight: 500,
             fontSize: "0.95rem",
             py: 1,
-            color: (theme) => theme.palette.primary.main,
+            // color: (theme) => theme.palette.primary.main,
             borderColor: (theme) => theme.palette.primary.main,
             "&:hover": {
+              border: "none",
               transform: "translateY(-2px)",
               boxShadow: (theme) => theme.shadows[1],
               borderColor: (theme) => theme.palette.primary.dark,

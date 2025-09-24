@@ -31,6 +31,20 @@ const AgentInstructionsSection: React.FC = () => {
     fontSize: "0.875rem", // 14px
     lineHeight: 1.2,
   };
+  const outlinedTextFieldSx = {
+    "& .MuiOutlinedInput-root": {
+      borderRadius: "12px",
+      "&:hover .MuiOutlinedInput-notchedOutline": {
+        borderColor: "#1E49E2",
+      },
+      "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+        borderColor: "#1E49E2",
+      },
+    },
+    "& .MuiOutlinedInput-notchedOutline": {
+      transition: "border-color 0.2s ease",
+    },
+  };
 
   // icon styles to vertically align the circular "i" with the label text
   const iconButtonSx = { ml: 1, p: 0.5 };
@@ -86,7 +100,7 @@ const AgentInstructionsSection: React.FC = () => {
             rows={3}
             value={interviewPrompt}
             onChange={(e) => setInterviewPrompt(e.target.value)}
-            sx={{ mb: 3, "& .MuiOutlinedInput-root": { borderRadius: "12px" } }}
+            sx={{ mb: 3, ...outlinedTextFieldSx }}
           />
 
           <Grid container spacing={2}>
@@ -123,7 +137,7 @@ const AgentInstructionsSection: React.FC = () => {
             rows={3}
             value={outcomePrompt}
             onChange={(e) => setOutcomePrompt(e.target.value)}
-            sx={{ mb: 3, "& .MuiOutlinedInput-root": { borderRadius: "12px" } }}
+            sx={{ mb: 3, ...outlinedTextFieldSx }}
           />
 
           <Grid container spacing={2}>

@@ -61,7 +61,20 @@ const GeneralInformationSection: React.FC<Props> = ({
     fontSize: "0.875rem", // 14px
     lineHeight: 1.2,
   };
-  const dateFieldSx = { "& .MuiOutlinedInput-root": { borderRadius: "12px" } };
+  const outlinedTextFieldSx = {
+    "& .MuiOutlinedInput-root": {
+      borderRadius: "12px",
+      "&:hover .MuiOutlinedInput-notchedOutline": {
+        borderColor: "#1E49E2",
+      },
+      "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+        borderColor: "#1E49E2",
+      },
+    },
+    "& .MuiOutlinedInput-notchedOutline": {
+      transition: "border-color 0.2s ease",
+    },
+  };
 
   // icon styles to vertically align the circular "i" with the label text
   const iconButtonSx = { ml: 1, p: 0.5 };
@@ -109,7 +122,7 @@ const GeneralInformationSection: React.FC<Props> = ({
             onChange={(e) => setCampaignName(e.target.value)}
             sx={{
               mb: 3,
-              "& .MuiOutlinedInput-root": { borderRadius: "12px" },
+              ...outlinedTextFieldSx,
             }}
             variant="outlined"
           />
@@ -132,7 +145,7 @@ const GeneralInformationSection: React.FC<Props> = ({
               sx={{
                 // provide space on the right so content doesn't sit under the icon
                 pr: "56px",
-                "& .MuiOutlinedInput-root": { borderRadius: "12px" },
+                ...outlinedTextFieldSx,
               }}
             />
 
@@ -152,12 +165,12 @@ const GeneralInformationSection: React.FC<Props> = ({
                 position: "absolute",
                 right: 8,
                 bottom: 8,
-                backgroundColor: "background.paper",
-                borderRadius: 1,
-                boxShadow: 1,
+                border: "none",
+                // backgroundColor: "background.paper",
+                // borderRadius: 1,
+                // boxShadow: 1,
                 "&:hover": { transform: "scale(1.03)" },
                 zIndex: 3,
-                border: (theme) => `1px solid ${theme.palette.divider}`,
               }}
             >
               <OpenInFullIcon fontSize="small" />
@@ -195,7 +208,7 @@ const GeneralInformationSection: React.FC<Props> = ({
               mb: 2,
               cursor: "pointer",
               "& .MuiInputBase-input": { cursor: "pointer" },
-              "& .MuiOutlinedInput-root": { borderRadius: "12px" },
+              ...outlinedTextFieldSx,
             }}
           />
 
@@ -219,7 +232,7 @@ const GeneralInformationSection: React.FC<Props> = ({
                     clearable: true,
                     onClear: () => setClearedMsg("Start date cleared!"),
                   } as any,
-                  textField: { fullWidth: true, sx: dateFieldSx },
+                  textField: { fullWidth: true, sx: outlinedTextFieldSx },
                 }}
               />
             </Grid>
@@ -237,7 +250,7 @@ const GeneralInformationSection: React.FC<Props> = ({
                     clearable: true,
                     onClear: () => setClearedMsg("End date cleared!"),
                   } as any,
-                  textField: { fullWidth: true, sx: dateFieldSx },
+                  textField: { fullWidth: true, sx: outlinedTextFieldSx },
                 }}
               />
             </Grid>
@@ -262,12 +275,12 @@ const GeneralInformationSection: React.FC<Props> = ({
             <TextField
               fullWidth
               multiline
-              rows={10}
+              rows={10.5}
               value={participantInstructions}
               onChange={(e) => setParticipantInstructions(e.target.value)}
               placeholder="Add instructions or notes for your interview participants to read before beginning the interview"
               variant="outlined"
-              sx={{ "& .MuiOutlinedInput-root": { borderRadius: "12px" } }}
+              sx={outlinedTextFieldSx}
             />
           </Box>
         </Grid>
